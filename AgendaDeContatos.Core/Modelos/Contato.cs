@@ -11,6 +11,6 @@ namespace AgendaDeContatos.Core.Modelos
 
         public DateTime? Nascimento { get; set; }
 
-        public ICollection<Telefone> Telefones { get; set; }
+        public virtual ICollection<Telefone> Telefones { get; set; }
     }
 }

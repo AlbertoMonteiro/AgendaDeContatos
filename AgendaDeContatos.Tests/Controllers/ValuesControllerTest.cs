@@ -1,39 +1,47 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Web.Http;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using AgendaDeContatos;
 using AgendaDeContatos.Controllers;
+using AgendaDeContatos.Core.Modelos;
+using AgendaDeContatos.Infra.Repositorios;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NSubstitute;
 
 namespace AgendaDeContatos.Tests.Controllers
 {
     [TestClass]
-    public class ValuesControllerTest
+    public class ContatosControllerTest
     {
         [TestMethod]
         public void Get()
         {
+            var contatosStub = new List<Contato>
+            {
+                new Contato { Id = 1 },
+                new Contato { Id = 2 }
+            };
+
             // Arrange
-            ValuesController controller = new ValuesController();
+            var contatosRepositorio = Substitute.For<IContatosRepositorio>();
+            contatosRepositorio.Todos().Returns(contatosStub.AsQueryable());
+            var controller = new ContatosController(contatosRepositorio);
 
             // Act
-            IEnumerable<string> result = controller.Get();
+            IEnumerable<Contato> contatos = controller.Get();
 
             // Assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(2, result.Count());
-            Assert.AreEqual("value1", result.ElementAt(0));
-            Assert.AreEqual("value2", result.ElementAt(1));
+            contatosRepositorio.Received().Todos();
+            Assert.IsNotNull(contatos);
+            Assert.AreEqual(2, contatos.Count());
+            Assert.AreEqual(1, contatos.ElementAt(0).Id);
+            Assert.AreEqual(2, contatos.ElementAt(1).Id);
         }
 
         [TestMethod]
         public void GetById()
         {
             // Arrange
-            ValuesController controller = new ValuesController();
+            var contatosRepositorio = Substitute.For<IContatosRepositorio>();
+            ContatosController controller = new ContatosController(contatosRepositorio);
 
             // Act
             string result = controller.Get(5);
@@ -46,7 +54,8 @@ namespace AgendaDeContatos.Tests.Controllers
         public void Post()
         {
             // Arrange
-            ValuesController controller = new ValuesController();
+            var contatosRepositorio = Substitute.For<IContatosRepositorio>();
+            ContatosController controller = new ContatosController(contatosRepositorio);
 
             // Act
             controller.Post("value");
@@ -58,7 +67,8 @@ namespace AgendaDeContatos.Tests.Controllers
         public void Put()
         {
             // Arrange
-            ValuesController controller = new ValuesController();
+            var contatosRepositorio = Substitute.For<IContatosRepositorio>();
+            ContatosController controller = new ContatosController(contatosRepositorio);
 
             // Act
             controller.Put(5, "value");
@@ -70,7 +80,8 @@ namespace AgendaDeContatos.Tests.Controllers
         public void Delete()
         {
             // Arrange
-            ValuesController controller = new ValuesController();
+            var contatosRepositorio = Substitute.For<IContatosRepositorio>();
+            ContatosController controller = new ContatosController(contatosRepositorio);
 
             // Act
             controller.Delete(5);

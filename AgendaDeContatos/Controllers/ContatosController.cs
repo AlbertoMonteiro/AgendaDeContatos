@@ -1,18 +1,24 @@
-﻿using System;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
+using AgendaDeContatos.Core.Modelos;
+using AgendaDeContatos.Infra.Repositorios;
 
 namespace AgendaDeContatos.Controllers
 {
-    public class ValuesController : ApiController
+    public class ContatosController : ApiController
     {
-        // GET api/values
-        public IEnumerable<string> Get()
+        readonly IContatosRepositorio contatosRepositorio;
+
+        public ContatosController(IContatosRepositorio contatosRepositorio)
         {
-            return new string[] { "value1", "value2" };
+            this.contatosRepositorio = contatosRepositorio;
+        }
+
+        // GET api/values
+        public IEnumerable<Contato> Get()
+        {
+            return contatosRepositorio.Todos();
         }
 
         // GET api/values/5
