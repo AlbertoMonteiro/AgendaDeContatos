@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgendaDeContatos.Core", "Ag
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgendaDeContatos.Infra", "AgendaDeContatos.Infra\AgendaDeContatos.Infra.csproj", "{A0A7F54B-1327-4488-A24A-DDEEDCC2E4C7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgendaDeContatos.Core.Tests", "AgendaDeContatos.Core.Tests\AgendaDeContatos.Core.Tests.csproj", "{04C9F9B1-4437-4C2D-8511-2989E16913C9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,10 @@ Global
 		{A0A7F54B-1327-4488-A24A-DDEEDCC2E4C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A0A7F54B-1327-4488-A24A-DDEEDCC2E4C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A0A7F54B-1327-4488-A24A-DDEEDCC2E4C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04C9F9B1-4437-4C2D-8511-2989E16913C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04C9F9B1-4437-4C2D-8511-2989E16913C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04C9F9B1-4437-4C2D-8511-2989E16913C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04C9F9B1-4437-4C2D-8511-2989E16913C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -50,5 +56,6 @@ Global
 		{EBA1D50E-0916-4336-AB9E-F8BB39E4D9A6} = {189AD448-0B3C-4FDB-ABD6-CDEB142F80B3}
 		{479172F0-B58B-45E6-9436-DB61AACFE046} = {35B7B3CB-6768-43C9-8CEC-6E00E8B6D042}
 		{A0A7F54B-1327-4488-A24A-DDEEDCC2E4C7} = {847A0435-34EF-416D-9E14-FBC95C5C6B64}
+		{04C9F9B1-4437-4C2D-8511-2989E16913C9} = {189AD448-0B3C-4FDB-ABD6-CDEB142F80B3}
 	EndGlobalSection
 EndGlobal
