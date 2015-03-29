@@ -1,20 +1,29 @@
 ﻿using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
 using AgendaDeContatos.Core.Modelos;
+using AgendaDeContatos.Infra.Migrations;
 
 namespace AgendaDeContatos.Infra
 {
     public class AgendaDeContatosDbContext : DbContext, IAgendaDeContatosDbContext
     {
-        public DbSet<Contato> Contatos { get; private set; }
+        public AgendaDeContatosDbContext()
+        {
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<AgendaDeContatosDbContext, Configuration>());
+        }
 
-        public DbSet<Telefone> Telefones { get; private set; }
+        public DbSet<Contato> Contatos { get; set; }
+
+        public DbSet<Telefone> Telefones { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Properties<string>()
                         .Configure(c => c.HasMaxLength(100).HasColumnType("varchar"));
 
-            modelBuilder.Conventions.AddFromAssembly(typeof(AgendaDeContatosDbContext).Assembly);
+            modelBuilder.Configurations.AddFromAssembly(typeof(AgendaDeContatosDbContext).Assembly);
+
+            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
     }
 }

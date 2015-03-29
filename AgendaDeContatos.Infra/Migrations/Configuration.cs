@@ -1,5 +1,6 @@
 using System;
 using System.Collections.ObjectModel;
+using System.Data.Entity;
 using System.Linq;
 using AgendaDeContatos.Core.Modelos;
 

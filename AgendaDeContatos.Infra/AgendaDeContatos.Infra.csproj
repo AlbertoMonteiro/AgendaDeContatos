@@ -31,6 +31,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AgendaDeContatosDbContext.cs" />
+    <Compile Include="EntityConfiguration\ContatoEntityTypeConfiguration.cs" />
+    <Compile Include="EntityConfiguration\TelefoneEntityTypeConfiguration.cs" />
     <Compile Include="IAgendaDeContatosDbContext.cs" />
     <Compile Include="IUnitOfWork.cs" />
     <Compile Include="Migrations\Configuration.cs" />
