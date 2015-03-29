@@ -1,13 +1,14 @@
 ﻿using System.Data.Entity;
 using System.Linq;
+using AgendaDeContatos.Core.Modelos;
 
 namespace AgendaDeContatos.Infra.Repositorios
 {
     public abstract class Repositorio<T> : IRepositorio<T>
-        where T : class
+        where T : EntidadeBase
     {
-        readonly IUnitOfWork<AgendaDeContatosDbContext> unitOfWork;
-        readonly DbSet<T> dbSet;
+        protected readonly IUnitOfWork<AgendaDeContatosDbContext> unitOfWork;
+        protected readonly DbSet<T> dbSet;
 
         protected Repositorio(IUnitOfWork<AgendaDeContatosDbContext> unitOfWork)
         {
@@ -17,7 +18,7 @@ namespace AgendaDeContatos.Infra.Repositorios
 
         public IQueryable<T> Todos()
         {
-            return dbSet;
+            return dbSet.OrderBy(c => c.Id);
         }
 
         public T PorId(long id)

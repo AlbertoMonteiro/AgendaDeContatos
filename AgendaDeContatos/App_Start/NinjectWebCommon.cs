@@ -71,6 +71,7 @@ namespace AgendaDeContatos.App_Start
             kernel.Bind<AgendaDeContatosDbContext>().ToSelf().InRequestScope();
             kernel.Bind<IUnitOfWork<AgendaDeContatosDbContext>>().To<UnitOfWork<AgendaDeContatosDbContext>>().InRequestScope();
             kernel.Bind<IContatosRepositorio>().To<ContatosRepositorio>().InRequestScope();
+            kernel.Bind<ITelefonesRepositorio>().To<TelefonesRepositorio>().InRequestScope();
         }        
     }
 }

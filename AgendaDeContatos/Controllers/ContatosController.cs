@@ -1,8 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Web.Http;
 using AgendaDeContatos.Core.Modelos;
 using AgendaDeContatos.Infra.Repositorios;
+using AgendaDeContatos.Models;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 
 namespace AgendaDeContatos.Controllers
 {
@@ -16,30 +22,66 @@ namespace AgendaDeContatos.Controllers
         }
 
         // GET api/values
-        public IEnumerable<Contato> Get()
+        public IEnumerable<ContatoViewModel> Get(int page = 0)
         {
-            return contatosRepositorio.Todos();
+            var contatoViewModels = contatosRepositorio
+                .Todos()
+                .Project().To<ContatoViewModel>()
+                .Skip(page*2)
+                .Take(2)
+                .ToList();
+            foreach (var contatoViewModel in contatoViewModels)
+                contatoViewModel.PreencherUrl(Request, new { controller = "contatos", id = contatoViewModel.Id });
+            return contatoViewModels;
         }
 
         // GET api/values/5
-        public string Get(int id)
+        public ContatoViewModel GetContatos(int id)
         {
-            return "value";
+            var contatoViewModel = Mapper.Map<ContatoViewModel>(contatosRepositorio.PorId(id));
+            contatoViewModel.PreencherUrl(Request, new { controller = "contatos", id = contatoViewModel.Id });
+            return contatoViewModel;
         }
 
         // POST api/values
-        public void Post([FromBody]string value)
+        public object Post([FromBody]ContatoViewModel contatoViewModel)
         {
+            if (ModelState.IsValid)
+            {
+                var contato = Mapper.Map<Contato>(contatoViewModel);
+
+                contatosRepositorio.Incluir(contato);
+
+                return Request.CreateResponse(HttpStatusCode.Created);
+            }
+            return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
         }
 
         // PUT api/values/5
-        public void Put(int id, [FromBody]string value)
+        public object Put(int id, [FromBody]ContatoViewModel contatoViewModel)
         {
+            if (ModelState.IsValid)
+            {
+                var contato = Mapper.Map<Contato>(contatoViewModel);
+                contato.Id = id;
+                contatosRepositorio.Atualizar(contato);
+
+                return Request.CreateResponse(HttpStatusCode.Created);
+            }
+            return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
         }
 
         // DELETE api/values/5
-        public void Delete(int id)
+        public object Delete(int id)
         {
+            var contato = contatosRepositorio.PorId(id);
+
+            if (contato)
+            {
+                contatosRepositorio.Deletar(contato);
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
+            return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Contato não existe");
         }
     }
 }

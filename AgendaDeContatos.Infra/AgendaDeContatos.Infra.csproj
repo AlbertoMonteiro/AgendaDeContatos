@@ -40,7 +40,9 @@
     <Compile Include="Repositorios\ContatosRepositorio.cs" />
     <Compile Include="Repositorios\IContatosRepositorio.cs" />
     <Compile Include="Repositorios\IRepositorio.cs" />
+    <Compile Include="Repositorios\ITelefonesRepositorio.cs" />
     <Compile Include="Repositorios\Repositorio.cs" />
+    <Compile Include="Repositorios\TelefonesRepositorio.cs" />
     <Compile Include="UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
