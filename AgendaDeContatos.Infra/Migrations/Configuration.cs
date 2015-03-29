@@ -1,3 +1,8 @@
+using System;
+using System.Collections.ObjectModel;
+using System.Linq;
+using AgendaDeContatos.Core.Modelos;
+
 namespace AgendaDeContatos.Infra.Migrations
 {
     using System.Data.Entity.Migrations;
@@ -8,7 +13,7 @@ namespace AgendaDeContatos.Infra.Migrations
         {
 #if DEBUG
             AutomaticMigrationsEnabled = true;
-            AutomaticMigrationDataLossAllowed = true; 
+            AutomaticMigrationDataLossAllowed = true;
 #else
             AutomaticMigrationsEnabled = false;
             AutomaticMigrationDataLossAllowed = false; 
@@ -17,18 +22,30 @@ namespace AgendaDeContatos.Infra.Migrations
 
         protected override void Seed(AgendaDeContatosDbContext context)
         {
-            //  This method will be called after migrating to the latest version.
+            if (!context.Contatos.Any())
+            {
+                context.Contatos.Add(new Contato
+                {
+                    Email = "alberto.monteiro@live.com",
+                    Nascimento = new DateTime(1990,3,16),
+                    Nome = "Alberto Monteiro",
+                    Telefones = new Collection<Telefone>
+                    {
+                        new Telefone
+                        {
+                            Numero = "8989897485",
+                            Tipo = TipoTelefone.Celular
+                        },
+                        new Telefone
+                        {
+                            Numero = "8939897485",
+                            Tipo = TipoTelefone.Residencial
+                        }
+                    }
+                });
 
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data. E.g.
-            //
-            //    context.People.AddOrUpdate(
-            //      p => p.FullName,
-            //      new Person { FullName = "Andrew Peters" },
-            //      new Person { FullName = "Brice Lambson" },
-            //      new Person { FullName = "Rowan Miller" }
-            //    );
-            //
+                context.SaveChanges();
+            }
         }
     }
 }
