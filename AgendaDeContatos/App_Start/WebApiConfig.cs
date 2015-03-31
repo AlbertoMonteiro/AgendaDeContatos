@@ -1,6 +1,7 @@
 ﻿using System.Web.Http;
 using AgendaDeContatos.Filters;
 using Newtonsoft.Json;
+using WebApiContrib.Formatting.Jsonp;
 
 namespace AgendaDeContatos
 {
@@ -27,6 +28,9 @@ namespace AgendaDeContatos
 
             config.Formatters.Remove(config.Formatters.XmlFormatter);
             config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+
+            var formatter = new JsonpMediaTypeFormatter(config.Formatters.JsonFormatter);
+            config.Formatters.Insert(0, formatter);
         }
     }
 }
