@@ -178,6 +178,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ContatosController.cs" />
     <Compile Include="Controllers\TelefonesController.cs" />
+    <Compile Include="Filters\RequiredHttpsAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

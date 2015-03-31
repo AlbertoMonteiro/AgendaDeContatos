@@ -1,4 +1,5 @@
 ﻿using System.Web.Http;
+using AgendaDeContatos.Filters;
 using Newtonsoft.Json;
 
 namespace AgendaDeContatos
