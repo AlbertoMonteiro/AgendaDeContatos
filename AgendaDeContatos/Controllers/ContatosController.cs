@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using AgendaDeContatos.Core.Modelos;
+using AgendaDeContatos.Filters;
 using AgendaDeContatos.Infra.Repositorios;
 using AgendaDeContatos.Models;
 using AutoMapper;
@@ -12,7 +13,7 @@ using AutoMapper.QueryableExtensions;
 
 namespace AgendaDeContatos.Controllers
 {
-    [Authorize]
+    [AutenticacaoBasica]
     [EnableCors("*", "*", "*")]
     public class ContatosController : ApiController
     {

@@ -103,6 +103,7 @@
     <Reference Include="System.Net.Http.WebRequest" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Filters\AutenticacaoBasicaAttributeTest.cs" />
     <Compile Include="Filters\RequiredHttpAttributeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\ContatosControllerTest.cs" />
