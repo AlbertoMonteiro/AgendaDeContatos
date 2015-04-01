@@ -12,6 +12,7 @@ using AutoMapper.QueryableExtensions;
 
 namespace AgendaDeContatos.Controllers
 {
+    [Authorize]
     [EnableCors("*", "*", "*")]
     public class ContatosController : ApiController
     {

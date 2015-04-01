@@ -197,6 +197,7 @@
     <Compile Include="Mapas\ContatoMapa.cs" />
     <Compile Include="Mapas\TelefoneMapa.cs" />
     <Compile Include="Models\ContatoViewModel.cs" />
+    <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\TelefoneViewModel.cs" />
     <Compile Include="Models\ViewModelBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -251,6 +252,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Views\Home\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AgendaDeContatos.Core\AgendaDeContatos.Core.csproj">
