@@ -1,9 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using AgendaDeContatos.Core.Modelos;
 using AgendaDeContatos.Infra.Repositorios;
 using AgendaDeContatos.Models;
@@ -12,6 +12,7 @@ using AutoMapper.QueryableExtensions;
 
 namespace AgendaDeContatos.Controllers
 {
+    [EnableCors("*", "*", "*")]
     public class ContatosController : ApiController
     {
         readonly IContatosRepositorio contatosRepositorio;
@@ -27,7 +28,7 @@ namespace AgendaDeContatos.Controllers
             var contatoViewModels = contatosRepositorio
                 .Todos()
                 .Project().To<ContatoViewModel>()
-                .Skip(page*2)
+                .Skip(page * 2)
                 .Take(2)
                 .ToList();
             foreach (var contatoViewModel in contatoViewModels)
