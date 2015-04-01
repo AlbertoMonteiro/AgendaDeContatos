@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Security.Principal;
@@ -6,6 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
+using AgendaDeContatos.Controllers;
 
 namespace AgendaDeContatos.Filters
 {
@@ -32,6 +34,31 @@ namespace AgendaDeContatos.Filters
                 else
                 {
                     actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.Unauthorized);
+                }
+            }
+            else
+            {
+                actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.Unauthorized);                
+            }
+        }
+    }
+    public class AutenticacaoTokenAttribute : AuthorizationFilterAttribute
+    {
+        public override void OnAuthorization(HttpActionContext actionContext)
+        {
+            var authorization = actionContext.Request.Headers.GetValues("Token").FirstOrDefault();
+
+            if (authorization != null)
+            {
+                var token = TokenController.tokens.FirstOrDefault(t => t.Token == authorization);
+
+                if (token == null)
+                {
+                    actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.Unauthorized);
+                }
+                else
+                {
+                    //Setar usuario
                 }
             }
             else

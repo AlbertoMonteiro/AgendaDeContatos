@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using AgendaDeContatos.Filters;
 using AgendaDeContatos.Infra.Repositorios;
 using AgendaDeContatos.Models;
 using AutoMapper;
@@ -8,6 +9,7 @@ using AutoMapper.QueryableExtensions;
 
 namespace AgendaDeContatos.Controllers
 {
+    [AutenticacaoToken]
     public class TelefonesController : ApiController
     {
         readonly ITelefonesRepositorio telefonesRepositorio;
