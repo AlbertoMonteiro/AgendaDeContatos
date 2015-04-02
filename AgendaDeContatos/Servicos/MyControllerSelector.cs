@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System.Linq;
+using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Controllers;
@@ -28,7 +29,9 @@ namespace AgendaDeContatos.Servicos
 
             if (controllers.TryGetValue(controllerName, out descriptor))
             {
-                var versao = GetVersao(request);
+                //var versao = GetVersao(request);
+                //var versao = GetHeaderVersao(request);
+                var versao = GetAcceptHeaderVersao(request);
 
                 var newControllerName = string.Format("{0}V{1}", controllerName, versao);
 
@@ -40,6 +43,23 @@ namespace AgendaDeContatos.Servicos
             }
 
             return null;
+        }
+
+        string GetHeaderVersao(HttpRequestMessage request)
+        {
+            const string HEADER_NAME = "X-AgendaDeContatos-Versao";
+
+            if (request.Headers.Contains(HEADER_NAME))
+                return request.Headers.GetValues(HEADER_NAME).FirstOrDefault() ?? "1";
+            return "1";
+        }
+
+        string GetAcceptHeaderVersao(HttpRequestMessage request)
+        {
+            var version = request.Headers.Accept.ToString().Split(';').FirstOrDefault(x => x.Contains("version"));
+            if (!string.IsNullOrWhiteSpace(version))
+                return version.Trim().Split('=')[1];
+            return "1";
         }
 
         private object GetVersao(HttpRequestMessage request)
