@@ -1,4 +1,6 @@
 ﻿using System.Web.Http;
+using System.Web.Http.Dispatcher;
+using AgendaDeContatos.Servicos;
 using Newtonsoft.Json;
 using WebApiContrib.Formatting.Jsonp;
 
@@ -20,15 +22,9 @@ namespace AgendaDeContatos
             );
 
             config.Routes.MapHttpRoute(
-                name: "ContatosApiV1",
-                routeTemplate: "api/v1/contatos/{id}",
+                name: "ContatosApi",
+                routeTemplate: "api/contatos/{id}",
                 defaults: new { controller = "contatos", id = RouteParameter.Optional }
-            );
-
-            config.Routes.MapHttpRoute(
-                name: "ContatosApiV2",
-                routeTemplate: "api/v2/contatos/{id}",
-                defaults: new { controller = "contatosv2", id = RouteParameter.Optional }
             );
 
             config.Routes.MapHttpRoute(
@@ -42,6 +38,8 @@ namespace AgendaDeContatos
 
             /*var formatter = new JsonpMediaTypeFormatter(config.Formatters.JsonFormatter);
             config.Formatters.Insert(0, formatter);*/
+
+            config.Services.Replace(typeof(IHttpControllerSelector), new MyControllerSelector(config));
 
             config.EnableCors();
         }

@@ -31,7 +31,7 @@ namespace AgendaDeContatos.Models
 
         public override string NomeRota()
         {
-            return "ContatosApiV1";
+            return "ContatosApi";
         }
     }
 }
