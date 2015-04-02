@@ -17,21 +17,21 @@ namespace AgendaDeContatos.Controllers
     [AutenticacaoBasica] 
 #endif
     [EnableCors("*", "*", "*")]
-    public class ContatosController : ApiController
+    public class ContatosV2Controller : ApiController
     {
         readonly IContatosRepositorio contatosRepositorio;
 
-        public ContatosController(IContatosRepositorio contatosRepositorio)
+        public ContatosV2Controller(IContatosRepositorio contatosRepositorio)
         {
             this.contatosRepositorio = contatosRepositorio;
         }
 
         // GET api/values
-        public IEnumerable<ContatoViewModel> Get(int page = 0)
+        public IEnumerable<ContatoViewModelV2> Get(int page = 0)
         {
             var contatoViewModels = contatosRepositorio
                 .Todos()
-                .Project().To<ContatoViewModel>()
+                .Project().To<ContatoViewModelV2>()
                 .Skip(page * 2)
                 .Take(2)
                 .ToList();
@@ -41,15 +41,15 @@ namespace AgendaDeContatos.Controllers
         }
 
         // GET api/values/5
-        public ContatoViewModel GetContatos(int id)
+        public ContatoViewModelV2 GetContatos(int id)
         {
-            var contatoViewModel = Mapper.Map<ContatoViewModel>(contatosRepositorio.PorId(id));
+            var contatoViewModel = Mapper.Map<ContatoViewModelV2>(contatosRepositorio.PorId(id));
             contatoViewModel.PreencherUrl(Request, new { controller = "contatos", id = contatoViewModel.Id });
             return contatoViewModel;
         }
 
         // POST api/values
-        public object Post([FromBody]ContatoViewModel contatoViewModel)
+        public object Post([FromBody]ContatoViewModelV2 contatoViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -63,7 +63,7 @@ namespace AgendaDeContatos.Controllers
         }
 
         // PUT api/values/5
-        public object Put(int id, [FromBody]ContatoViewModel contatoViewModel)
+        public object Put(int id, [FromBody]ContatoViewModelV2 contatoViewModel)
         {
             if (ModelState.IsValid)
             {

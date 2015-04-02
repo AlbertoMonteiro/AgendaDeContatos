@@ -20,9 +20,21 @@ namespace AgendaDeContatos
             );
 
             config.Routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
+                name: "ContatosApiV1",
+                routeTemplate: "api/v1/contatos/{id}",
+                defaults: new { controller = "contatos", id = RouteParameter.Optional }
+            );
+
+            config.Routes.MapHttpRoute(
+                name: "ContatosApiV2",
+                routeTemplate: "api/v2/contatos/{id}",
+                defaults: new { controller = "contatosv2", id = RouteParameter.Optional }
+            );
+
+            config.Routes.MapHttpRoute(
+                name: "TokenApi",
+                routeTemplate: "api/token/{id}",
+                defaults: new { controller = "token", id = RouteParameter.Optional }
             );
 
             config.Formatters.Remove(config.Formatters.XmlFormatter);

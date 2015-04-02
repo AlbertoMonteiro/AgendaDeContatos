@@ -9,7 +9,9 @@ using AutoMapper.QueryableExtensions;
 
 namespace AgendaDeContatos.Controllers
 {
-    [AutenticacaoToken]
+#if !DEBUG
+    [AutenticacaoToken] 
+#endif
     public class TelefonesController : ApiController
     {
         readonly ITelefonesRepositorio telefonesRepositorio;
