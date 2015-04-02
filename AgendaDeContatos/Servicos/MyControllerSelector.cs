@@ -1,4 +1,5 @@
 ﻿using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Dispatcher;
@@ -27,7 +28,7 @@ namespace AgendaDeContatos.Servicos
 
             if (controllers.TryGetValue(controllerName, out descriptor))
             {
-                var versao = "2";
+                var versao = GetVersao(request);
 
                 var newControllerName = string.Format("{0}V{1}", controllerName, versao);
 
@@ -39,6 +40,16 @@ namespace AgendaDeContatos.Servicos
             }
 
             return null;
+        }
+
+        private object GetVersao(HttpRequestMessage request)
+        {
+            var query = HttpUtility.ParseQueryString(request.RequestUri.Query);
+
+            var versao = query["v"];
+            return !string.IsNullOrWhiteSpace(versao)
+                       ? versao
+                       : "1";
         }
     }
 }
