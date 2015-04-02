@@ -1,4 +1,7 @@
-﻿using System.Web.Http;
+﻿using System.Linq;
+using System.Net.Http.Formatting;
+using System.Net.Http.Headers;
+using System.Web.Http;
 using System.Web.Http.Dispatcher;
 using AgendaDeContatos.Servicos;
 using Newtonsoft.Json;
@@ -39,9 +42,24 @@ namespace AgendaDeContatos
             /*var formatter = new JsonpMediaTypeFormatter(config.Formatters.JsonFormatter);
             config.Formatters.Insert(0, formatter);*/
 
+            CreateMediaTypes(config.Formatters.JsonFormatter);
+
             config.Services.Replace(typeof(IHttpControllerSelector), new MyControllerSelector(config));
 
             config.EnableCors();
+        }
+
+        static void CreateMediaTypes(JsonMediaTypeFormatter jsonFormatter)
+        {
+            new[]
+            {
+                "application/vnd.agendadecontatos.contatos.v1+json",
+                "application/vnd.agendadecontatos.contatos.v2+json",
+                "application/vnd.agendadecontatos.telefones.v1+json",
+            }
+                .Select(m => new MediaTypeHeaderValue(m))
+                .ToList()
+                .ForEach(jsonFormatter.SupportedMediaTypes.Add);
         }
     }
 }

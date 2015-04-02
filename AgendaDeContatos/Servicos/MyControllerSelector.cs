@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Controllers;
@@ -31,7 +32,8 @@ namespace AgendaDeContatos.Servicos
             {
                 //var versao = GetVersao(request);
                 //var versao = GetHeaderVersao(request);
-                var versao = GetAcceptHeaderVersao(request);
+                //var versao = GetAcceptHeaderVersao(request);
+                var versao = GetMediaTypeHeaderVersao(request); ;
 
                 var newControllerName = string.Format("{0}V{1}", controllerName, versao);
 
@@ -43,6 +45,20 @@ namespace AgendaDeContatos.Servicos
             }
 
             return null;
+        }
+
+        string GetMediaTypeHeaderVersao(HttpRequestMessage request)
+        {
+            var mediaType = request.Headers.Accept;
+            var regex = new Regex(@"application/vnd\.agendadecontatos\.[a-z]+\.v(?<versao>\d+)\+json");
+
+            foreach (var mime in mediaType)
+            {
+                var match = regex.Match(mime.MediaType);
+                if (match.Success)
+                    return match.Groups["versao"].Value;
+            }
+            return "1";
         }
 
         string GetHeaderVersao(HttpRequestMessage request)
@@ -71,5 +87,7 @@ namespace AgendaDeContatos.Servicos
                        ? versao
                        : "1";
         }
+
+
     }
 }
