@@ -17,6 +17,7 @@ namespace AgendaDeContatos
 
             // Web API routes
             config.MapHttpAttributeRoutes();
+/*
 
             config.Routes.MapHttpRoute(
                 name: "ContatosTelefoneApi",
@@ -35,6 +36,7 @@ namespace AgendaDeContatos
                 routeTemplate: "api/token/{id}",
                 defaults: new { controller = "token", id = RouteParameter.Optional }
             );
+*/
 
             config.Formatters.Remove(config.Formatters.XmlFormatter);
             config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
@@ -44,7 +46,7 @@ namespace AgendaDeContatos
 
             CreateMediaTypes(config.Formatters.JsonFormatter);
 
-            config.Services.Replace(typeof(IHttpControllerSelector), new MyControllerSelector(config));
+            //config.Services.Replace(typeof(IHttpControllerSelector), new MyControllerSelector(config));
 
             config.EnableCors();
         }

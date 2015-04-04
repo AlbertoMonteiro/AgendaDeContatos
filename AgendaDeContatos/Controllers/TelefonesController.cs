@@ -12,6 +12,7 @@ namespace AgendaDeContatos.Controllers
 #if !DEBUG
     [AutenticacaoToken] 
 #endif
+    [RoutePrefix("api/contatos/{contatoId}/telefones")]
     public class TelefonesController : ApiController
     {
         readonly ITelefonesRepositorio telefonesRepositorio;
@@ -21,7 +22,7 @@ namespace AgendaDeContatos.Controllers
             this.telefonesRepositorio = telefonesRepositorio;
         }
 
-        // GET api/values
+        [Route("")]
         public IEnumerable<TelefoneViewModel> Get(long contatoId)
         {
             var telefoneViewModels = telefonesRepositorio.DoContato(contatoId).Project().To<TelefoneViewModel>().ToList();
@@ -31,7 +32,7 @@ namespace AgendaDeContatos.Controllers
             return telefoneViewModels;
         }
 
-        // GET api/values/5
+        [Route("{id}")]
         public TelefoneViewModel Get(long contatoId, int id)
         {
             var telefoneViewModel = Mapper.Map<TelefoneViewModel>(telefonesRepositorio.DoContatoPorId(contatoId, id));
