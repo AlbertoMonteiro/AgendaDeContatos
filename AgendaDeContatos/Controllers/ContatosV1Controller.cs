@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿#if NCRUNCH
+using System.Collections.Generic;
+#endif
+using System.Linq;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using AgendaDeContatos.Core.Modelos;
@@ -32,7 +35,7 @@ namespace AgendaDeContatos.Controllers
                 .Take(2);
 
 #if NCRUNCH
-            var contatosViewModel = Mapper.Map<IList<ContatoViewModel>>(contatos).ToList(); 
+            var contatosViewModel = Mapper.Map<IList<ContatoViewModel>>(contatos).ToList();
 #else
             var contatosViewModel = contatos.Project().To<ContatoViewModel>().ToList();
 #endif
