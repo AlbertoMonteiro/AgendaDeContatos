@@ -32,7 +32,7 @@ namespace AgendaDeContatos.Controllers
             return telefoneViewModels;
         }
 
-        [Route("{id}")]
+        [Route("{id}", Name = "ContatosTelefoneApi")]
         public TelefoneViewModel Get(long contatoId, int id)
         {
             var telefoneViewModel = Mapper.Map<TelefoneViewModel>(telefonesRepositorio.DoContatoPorId(contatoId, id));

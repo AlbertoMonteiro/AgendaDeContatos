@@ -127,9 +127,9 @@ namespace AgendaDeContatos.Tests.Controllers
             Assert.AreEqual(HttpStatusCode.NotFound, responseMessage.StatusCode);
         }
 
-        static ContatosController ContatosControllerMocked(IContatosRepositorio contatosRepositorio)
+        static ContatosV1Controller ContatosControllerMocked(IContatosRepositorio contatosRepositorio)
         {
-            var controller = new ContatosController(contatosRepositorio);
+            var controller = new ContatosV1Controller(contatosRepositorio);
             controller.Configuration = new HttpConfiguration();
             controller.Request = new HttpRequestMessage();
 

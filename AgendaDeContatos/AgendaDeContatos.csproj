@@ -191,7 +191,7 @@
     <Compile Include="Models\App.cs" />
     <Compile Include="Models\AuthToken.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ContatosController.cs" />
+    <Compile Include="Controllers\ContatosV1Controller.cs" />
     <Compile Include="Models\ContatoViewModelV2.cs" />
     <Compile Include="Models\RequestTokenModel.cs" />
     <Compile Include="Controllers\TelefonesController.cs" />
@@ -208,7 +208,7 @@
     <Compile Include="Models\TelefoneViewModel.cs" />
     <Compile Include="Models\ViewModelBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Servicos\MyControllerSelector.cs" />
+    <Compile Include="Servicos\ApiControllerSelector.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />

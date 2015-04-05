@@ -17,6 +17,7 @@ namespace AgendaDeContatos.Controllers
     [AutenticacaoBasica] 
 #endif
     [EnableCors("*", "*", "*")]
+    [RoutePrefix("api/contatos")]
     public class ContatosV2Controller : ApiController
     {
         readonly IContatosRepositorio contatosRepositorio;
@@ -27,6 +28,7 @@ namespace AgendaDeContatos.Controllers
         }
 
         // GET api/values
+        [Route("")]
         public IEnumerable<ContatoViewModelV2> Get(int page = 0)
         {
             var contatoViewModels = contatosRepositorio
@@ -36,15 +38,16 @@ namespace AgendaDeContatos.Controllers
                 .Take(2)
                 .ToList();
             foreach (var contatoViewModel in contatoViewModels)
-                contatoViewModel.PreencherUrl(Request, new { controller = "contatos", id = contatoViewModel.Id });
+                contatoViewModel.PreencherUrl(Request, new { id = contatoViewModel.Id });
             return contatoViewModels;
         }
 
         // GET api/values/5
+        [Route("{id}", Name = "ContatosApiV2")]
         public ContatoViewModelV2 GetContatos(int id)
         {
             var contatoViewModel = Mapper.Map<ContatoViewModelV2>(contatosRepositorio.PorId(id));
-            contatoViewModel.PreencherUrl(Request, new { controller = "contatos", id = contatoViewModel.Id });
+            contatoViewModel.PreencherUrl(Request, new { id = contatoViewModel.Id });
             return contatoViewModel;
         }
 

@@ -1,18 +1,20 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Dispatcher;
+using System.Web.Http.Routing;
 
 namespace AgendaDeContatos.Servicos
 {
-    public class MyControllerSelector : DefaultHttpControllerSelector
+    public class ApiControllerSelector : DefaultHttpControllerSelector
     {
         readonly HttpConfiguration configuration;
 
-        public MyControllerSelector(HttpConfiguration configuration)
+        public ApiControllerSelector(HttpConfiguration configuration)
             : base(configuration)
         {
             this.configuration = configuration;
@@ -20,31 +22,22 @@ namespace AgendaDeContatos.Servicos
 
         public override HttpControllerDescriptor SelectController(HttpRequestMessage request)
         {
-            var controllers = GetControllerMapping();
-
             var routeData = request.GetRouteData();
+            var versao = GetHeaderVersao(request);
 
-            var controllerName = (string)routeData.Values["controller"];
+            var novasRotas = routeData
+                .GetSubRoutes()
+                .SelectMany(GetActionDescritor, (routeDt, actionDescritor) => new { routeDt, actionDescritor.ControllerDescriptor })
+                .Where(dupla => dupla.ControllerDescriptor.ControllerName.EndsWith(versao))
+                .ToList();
 
-            HttpControllerDescriptor descriptor;
+            routeData.Values["MS_SubRoutes"] = novasRotas.Select(dupla => dupla.routeDt).ToArray();
+            return novasRotas.Select(dupla => dupla.ControllerDescriptor).FirstOrDefault();
+        }
 
-            if (controllers.TryGetValue(controllerName, out descriptor))
-            {
-                //var versao = GetVersao(request);
-                //var versao = GetHeaderVersao(request);
-                //var versao = GetAcceptHeaderVersao(request);
-                var versao = GetMediaTypeHeaderVersao(request); ;
-
-                var newControllerName = string.Format("{0}V{1}", controllerName, versao);
-
-                HttpControllerDescriptor newDescriptor;
-
-                return controllers.TryGetValue(newControllerName, out newDescriptor)
-                           ? newDescriptor
-                           : descriptor;
-            }
-
-            return null;
+        HttpActionDescriptor[] GetActionDescritor(IHttpRouteData route)
+        {
+            return (HttpActionDescriptor[])route.Route.DataTokens["actions"];
         }
 
         string GetMediaTypeHeaderVersao(HttpRequestMessage request)
@@ -66,8 +59,8 @@ namespace AgendaDeContatos.Servicos
             const string HEADER_NAME = "X-AgendaDeContatos-Versao";
 
             if (request.Headers.Contains(HEADER_NAME))
-                return request.Headers.GetValues(HEADER_NAME).FirstOrDefault() ?? "1";
-            return "1";
+                return "V" + (request.Headers.GetValues(HEADER_NAME).FirstOrDefault() ?? "1");
+            return "V1";
         }
 
         string GetAcceptHeaderVersao(HttpRequestMessage request)
@@ -87,7 +80,5 @@ namespace AgendaDeContatos.Servicos
                        ? versao
                        : "1";
         }
-
-
     }
 }
