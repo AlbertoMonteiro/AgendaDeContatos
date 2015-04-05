@@ -1,11 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
+﻿using System.Linq;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using AgendaDeContatos.Core.Modelos;
-using AgendaDeContatos.Filters;
 using AgendaDeContatos.Infra.Repositorios;
 using AgendaDeContatos.Models;
 using AutoMapper;
@@ -30,15 +26,19 @@ namespace AgendaDeContatos.Controllers
         [Route("")]
         public IHttpActionResult Get(int page = 0)
         {
-            var contatoViewModels = contatosRepositorio
+            var contatos = contatosRepositorio
                 .Todos()
-                .Project().To<ContatoViewModel>()
                 .Skip(page * 2)
-                .Take(2)
-                .ToList();
-            foreach (var contatoViewModel in contatoViewModels)
-                contatoViewModel.PreencherUrl(Request, new { controller = "contatos", id = contatoViewModel.Id });
-            return Ok(contatoViewModels);
+                .Take(2);
+
+#if NCRUNCH
+            var contatosViewModel = Mapper.Map<IList<ContatoViewModel>>(contatos).ToList(); 
+#else
+            var contatosViewModel = contatos.Project().To<ContatoViewModel>().ToList();
+#endif
+            foreach (var contatoViewModel in contatosViewModel)
+                contatoViewModel.PreencherUrl(Request, new { id = contatoViewModel.Id });
+            return Ok(contatosViewModel);
         }
 
         [Route("{id}", Name = "ContatosApi")]

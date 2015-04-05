@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Results;
@@ -27,7 +26,6 @@ namespace AgendaDeContatos.Tests.Controllers
             Mapper.AddProfile<TelefoneMapa>();
         }
 
-/*
         [TestMethod]
         public void Get()
         {
@@ -43,18 +41,16 @@ namespace AgendaDeContatos.Tests.Controllers
             var controller = ContatosControllerMocked(contatosRepositorio);
 
             // Act
-            var contatos = controller.Get();
+            var contatos = (OkNegotiatedContentResult<List<ContatoViewModel>>)controller.Get();
 
             // Assert
             contatosRepositorio.Received().Todos();
             Assert.IsNotNull(contatos);
-            Assert.AreEqual(2, contatos.Count());
-            Assert.AreEqual(1, contatos.ElementAt(0).Id);
-            Assert.AreEqual(2, contatos.ElementAt(1).Id);
+            Assert.AreEqual(2, contatos.Content.Count());
+            Assert.AreEqual(1, contatos.Content.ElementAt(0).Id);
+            Assert.AreEqual(2, contatos.Content.ElementAt(1).Id);
         }
-*/
 
-/*
         [TestMethod]
         public void GetById()
         {
@@ -64,13 +60,12 @@ namespace AgendaDeContatos.Tests.Controllers
             var controller = ContatosControllerMocked(contatosRepositorio);
 
             // Act
-            var contato = controller.GetContatos(1);
-
+            var contato = (OkNegotiatedContentResult<ContatoViewModel>)controller.GetContatos(1);
+            
             // Assert
             contatosRepositorio.Received().PorId(1);
-            Assert.AreEqual(1, contato.Id);
+            Assert.AreEqual(1, contato.Content.Id);
         }
-*/
 
         [TestMethod]
         public async Task Post()
@@ -131,9 +126,7 @@ namespace AgendaDeContatos.Tests.Controllers
 
             // Assert
             contatosRepositorio.Received().PorId(5);
-            Assert.IsInstanceOfType(delete, typeof(HttpResponseMessage));
-            var responseMessage = (HttpResponseMessage)delete;
-            Assert.AreEqual(HttpStatusCode.NotFound, responseMessage.StatusCode);
+            Assert.IsInstanceOfType(delete, typeof(NotFoundResult));
         }
 
         static ContatosV1Controller ContatosControllerMocked(IContatosRepositorio contatosRepositorio)
